@@ -1,2 +1,9 @@
+# front
 aeon-client/node_modules
 aeon-client/dist
+
+# Back
+aeon-server/vendor/
+aeon-server/var/
+aeon-server/.env.local
+aeon-server/.env.*.local
