@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CarteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,33 @@ class Carte
 
     #[ORM\Column]
     private ?bool $estFusionnee = null;
+
+    #[ORM\ManyToOne(inversedBy: 'cartes')]
+    private ?Action $action = null;
+
+    #[ORM\ManyToOne(inversedBy: 'cartes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?CategorieCarte $categorie = null;
+
+    /**
+     * @var Collection<int, Partie>
+     */
+    #[ORM\ManyToMany(targetEntity: Partie::class, inversedBy: 'cartes')]
+    #[ORM\JoinTable(name:"carte_partie")]
+    private Collection $parties;
+
+    /**
+     * @var Collection<int, Fusion>
+     */
+    #[ORM\ManyToMany(targetEntity: Fusion::class, inversedBy: 'cartes')]
+    #[ORM\JoinTable(name:"fusion_carte")]
+    private Collection $fusions;
+
+    public function __construct()
+    {
+        $this->parties = new ArrayCollection();
+        $this->fusions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +134,78 @@ class Carte
     public function setEstFusionnee(bool $estFusionnee): static
     {
         $this->estFusionnee = $estFusionnee;
+
+        return $this;
+    }
+
+    public function getAction(): ?Action
+    {
+        return $this->action;
+    }
+
+    public function setAction(?Action $action): static
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?CategorieCarte
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?CategorieCarte $categorie): static
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Partie>
+     */
+    public function getPartie(): Collection
+    {
+        return $this->parties;
+    }
+
+    public function addPartie(Partie $parties): static
+    {
+        if (!$this->parties->contains($parties)) {
+            $this->parties->add($parties);
+        }
+
+        return $this;
+    }
+
+    public function removePartie(Partie $partie): static
+    {
+        $this->parties->removeElement($partie);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fusion>
+     */
+    public function getFusion(): Collection
+    {
+        return $this->fusions;
+    }
+
+    public function addFusion(Fusion $fusions): static
+    {
+        if (!$this->fusions->contains($fusions)) {
+            $this->fusions->add($fusions);
+        }
+
+        return $this;
+    }
+
+    public function removeFusion(Fusion $fusions): static
+    {
+        $this->fusions->removeElement($fusions);
 
         return $this;
     }

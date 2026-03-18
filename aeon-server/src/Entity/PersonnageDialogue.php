@@ -26,6 +26,10 @@ class PersonnageDialogue
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'personnageDialogues')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Action $action = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +79,18 @@ class PersonnageDialogue
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getAction(): ?Action
+    {
+        return $this->action;
+    }
+
+    public function setAction(?Action $action): static
+    {
+        $this->action = $action;
 
         return $this;
     }
