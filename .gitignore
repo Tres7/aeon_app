@@ -1,6 +1,7 @@
 # front
 aeon-client/node_modules
 aeon-client/dist
+aeon-client/pnpm-lock.yaml
 
 # Back
 aeon-server/vendor/
