@@ -16,6 +16,17 @@ class CarteRepository extends ServiceEntityRepository
         parent::__construct($registry, Carte::class);
     }
 
+    public function findDetails(int $idCarte): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.description, c.estFusionnable,c.estFusionnee')
+            ->andWhere('c.id = :idCarte')
+            ->setParameter('idCarte', $idCarte)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return Carte[] Returns an array of Carte objects
     //     */
