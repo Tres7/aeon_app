@@ -20,7 +20,7 @@ class PartieService {
         $this->partieRepository = $partieRepository;
     }
 
-    public function createPartie(int $nbreJoueurs, int $extensionId) {
+    public function createPartie(int $nbreJoueurs, int $extensionId): Partie {
         $extension = $this->extensionRepository->find($extensionId);
 
         if (!$extension) {
@@ -39,7 +39,7 @@ class PartieService {
         return $partie;
     }
 
-    public function getPartie(int $partieId) {
+    public function getPartie(int $partieId): Partie {
         $partie = $this->partieRepository->find($partieId);
 
         if (!$partie) {
