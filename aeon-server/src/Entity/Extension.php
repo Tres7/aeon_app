@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExtensionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExtensionRepository::class)]
@@ -16,6 +17,7 @@ class Extension
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['partie:read'])]
     private ?string $label = null;
 
     #[ORM\Column(length: 255, nullable: true)]

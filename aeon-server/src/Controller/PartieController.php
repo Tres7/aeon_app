@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use InvalidArgumentException;
-use PartieService;
+use App\Service\PartieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PartieController extends AbstractController
 {
 
-    #[Route('/partie', name: 'create_part', methods:['POST'])]
-    public function createPart(Request $request, PartieService $partieService): JsonResponse
+    #[Route('/partie', name: 'create_partie', methods:['POST'])]
+    public function createPartie(Request $request, PartieService $partieService): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $nbreJoueurs = $data['nbreJoueurs'] ?? null;
@@ -43,7 +43,7 @@ final class PartieController extends AbstractController
         }
        
         try {
-            $partie = $partieService->createPart($nbreJoueurs, $extensionId);
+            $partie = $partieService->createPartie($nbreJoueurs, $extensionId);
         } catch (InvalidArgumentException $e) {
             return $this->json(['message' => $e->getMessage()], 400);
         }
@@ -52,7 +52,25 @@ final class PartieController extends AbstractController
             'Success' => true,
             'numero' => $partie->getNumero(),
             'nombre de joueurs' => $partie->getNbreJoueurs(),
-        ]);
+        ],
+        201);
+    }
+
+    #[Route('/partie/{id}', name: 'get_partie', methods:['GET'])]
+    public function getPartie(int $id, PartieService $partieService): JsonResponse {
+        try {
+            $partie = $partieService->getPartie($id);
+        } catch (InvalidArgumentException $e) {
+            return $this->json(['message' => $e->getMessage()], 404);
+        }
+
+        return $this->json(
+            $partie, 
+            200, 
+            [], 
+            [
+                'groups' => ['partie:read']
+            ]);
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PartieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PartieRepository::class)]
@@ -16,31 +17,37 @@ class Partie
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['partie:read'])]
     private ?string $numero = null;
 
     #[ORM\Column]
+    #[Groups(['partie:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $endedAt = null;
 
     #[ORM\Column]
+    #[Groups(['partie:read'])]
     private ?int $nbreJoueurs = null;
 
     #[ORM\ManyToOne(inversedBy: 'parties')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['partie:read'])]
     private ?Extension $extension = null;
 
     /**
      * @var Collection<int, Tour>
      */
     #[ORM\OneToMany(targetEntity: Tour::class, mappedBy: 'partie', orphanRemoval: true)]
+    #[Groups(['partie:read'])]
     private Collection $tours;
 
     /**
      * @var Collection<int, Joueur>
      */
     #[ORM\OneToMany(targetEntity: Joueur::class, mappedBy: 'partie', orphanRemoval: true)]
+    #[Groups(['partie:read'])]
     private Collection $joueurs;
 
     /**

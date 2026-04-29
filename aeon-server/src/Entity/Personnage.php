@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PersonnageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonnageRepository::class)]
@@ -16,9 +17,11 @@ class Personnage
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['partie:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups(['partie:read'])]
     private ?string $prenom = null;
 
     /**
