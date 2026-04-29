@@ -3,6 +3,7 @@ namespace App\Service;
 
 
 use App\Entity\Tour;
+use DateTimeImmutable;
 use InvalidArgumentException;
 use App\Repository\ExtensionRepository;
 use App\Repository\PartieRepository;
@@ -67,6 +68,29 @@ class PartieService {
         $partie->addTour($tour);
 
         $this->entityManagerInterface->persist($tour);
+        $this->entityManagerInterface->flush();
+
+        return $partie;
+
+    }
+
+    public function terminerPartie (int $id): Partie {
+        $partie = $this->partieRepository->find($id);
+
+        if (!$partie) {
+            throw new InvalidArgumentException("Partie introuvable.");
+        }
+
+        if (!$partie->getTours()->isEmpty()) {
+            throw new LogicException ("La partie n'a pas été démarrée.");
+        }
+
+        if ($partie->getEndedAt() !== null) {
+            throw new LogicException("La partie est déjà terminée.");
+        }
+
+        $partie->setEndedAt(new DateTimeImmutable());
+
         $this->entityManagerInterface->flush();
 
         return $partie;
