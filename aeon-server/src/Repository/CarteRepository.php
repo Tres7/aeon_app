@@ -27,6 +27,18 @@ class CarteRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findCartesActivees(string $numero): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id','c.numero','c.statut','c.estFusionnable','c.estFusionnee')
+            ->join('c.parties', 'p')
+            ->where('p.numero = :numero')
+            ->andWhere('c.estActivee = true')
+            ->setParameter('numero', $numero)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Carte[] Returns an array of Carte objects
     //     */

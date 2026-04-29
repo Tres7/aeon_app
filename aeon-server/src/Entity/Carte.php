@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: CarteRepository::class)]
 class Carte
@@ -17,24 +18,29 @@ class Carte
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(["activated-in-inventory"])]
     private ?int $numero = null;
 
     #[ORM\Column]
     private ?bool $estActivee = null;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(["activated-in-inventory"])]
     private ?string $statut = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Groups(["activated-in-inventory"])]
     private ?bool $estFusionnable = null;
 
     #[ORM\Column]
+     #[Groups(["activated-in-inventory"])]
     private ?bool $estFusionnee = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartes')]
+    #[Groups(["activated-in-inventory"])]
     private ?Action $action = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartes')]
