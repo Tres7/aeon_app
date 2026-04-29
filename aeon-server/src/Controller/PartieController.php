@@ -73,4 +73,21 @@ final class PartieController extends AbstractController
             ]);
     }
 
+    #[Route('/partie/{id}/demarrer', name: 'demarrer_partie', methods:['POST'])]
+    public function demarrerPartie(int $id, PartieService $partieService): JsonResponse {
+        try {
+            $partie = $partieService->demarrerPartie($id);
+        } catch (InvalidArgumentException $e) {
+            return $this->json(['message' => $e->getMessage()], 404);
+        }
+
+        return $this->json(
+            $partie, 
+            200, 
+            [], 
+            [
+                'groups' => ['partie:read']
+            ]);
+    }
+
 }

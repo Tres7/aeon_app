@@ -2,11 +2,13 @@
 namespace App\Service;
 
 
+use App\Entity\Tour;
 use InvalidArgumentException;
 use App\Repository\ExtensionRepository;
 use App\Repository\PartieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Partie;
+use LogicException;
 
 class PartieService {
     private ExtensionRepository $extensionRepository;
@@ -47,6 +49,28 @@ class PartieService {
         }
 
         return $partie;
+    }  
+
+    public function demarrerPartie (int $id): Partie {
+        $partie = $this->partieRepository->find($id);
+
+        if (!$partie) {
+            throw new InvalidArgumentException("Partie introuvable.");
+        }
+
+        if (!$partie->getTours()->isEmpty()) {
+            throw new LogicException ("La partie a déjà été démarrée.");
+        }
+
+        $tour = new Tour();
+        $tour->setNumero(1);
+        $partie->addTour($tour);
+
+        $this->entityManagerInterface->persist($tour);
+        $this->entityManagerInterface->flush();
+
+        return $partie;
+
     }
 
     private function generateNumeroPartie(int $longueur = 10): string
