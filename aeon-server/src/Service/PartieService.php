@@ -81,7 +81,7 @@ class PartieService {
             throw new InvalidArgumentException("Partie introuvable.");
         }
 
-        if (!$partie->getTours()->isEmpty()) {
+        if ($partie->getTours()->isEmpty()) {
             throw new LogicException ("La partie n'a pas été démarrée.");
         }
 
