@@ -80,6 +80,8 @@ final class PartieController extends AbstractController
             $partie = $partieService->demarrerPartie($id);
         } catch (InvalidArgumentException $e) {
             return $this->json(['message' => $e->getMessage()], 404);
+        } catch (LogicException $e) {
+            return $this->json(['message' => $e->getMessage()], 400);
         }
 
         return $this->json(
@@ -92,7 +94,7 @@ final class PartieController extends AbstractController
     }
 
     #[Route('/partie/{id}/terminer', name: 'terminer_partie', methods:['PATCH'])]
-    public function terminerrPartie(int $id, PartieService $partieService): JsonResponse {
+    public function terminerPartie(int $id, PartieService $partieService): JsonResponse {
         try {
             $partie = $partieService->terminerPartie($id);
         } catch (InvalidArgumentException $e) {
