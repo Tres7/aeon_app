@@ -74,6 +74,7 @@
       <path value="$PROJECT_DIR$/aeon-server/vendor/symfony/finder" />
       <path value="$PROJECT_DIR$/aeon-server/vendor/psr/log" />
       <path value="$PROJECT_DIR$/aeon-server/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/aeon-server/vendor/symfony/serializer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

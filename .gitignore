@@ -7,3 +7,5 @@ aeon-server/vendor/
 aeon-server/var/
 aeon-server/.env.local
 aeon-server/.env.*.local
+# IDE
+.idea/
